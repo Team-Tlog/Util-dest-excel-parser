@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지명별 특징 정보</title>
+
+    <link rel="stylesheet" type="text/css" href="/static/content/destination-parser.css" />
+</head>
+<body>
+    <!--입력부-->
+    <div class="input-container">
+        <input type="file" id="file-input" accept=".xls,.xlsx" />
+        <button id="submit-button">확인</button>
+    </div>
+
+    <!--표시부-->
+    <div id="content-container">
+
+        <!--여행지 선택-->
+        <div id="location-wrapper">
+            <h2>여행지 리스트</h2>
+            <div id="location-list-container">
+                <ul id="location-list">
+                </ul>
+            </div>
+        </div>
+
+        <!--여행지의 태그 표시-->
+        <div id="info-container">
+            <h2 id="selected-location"></h2>
+            <div id="features-info">
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/static/scripts/destination-parser.js"></script>
+</body>
+</html>

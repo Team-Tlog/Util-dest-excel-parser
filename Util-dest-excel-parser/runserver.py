@@ -6,9 +6,9 @@ from os import environ
 from Util_dest_excel_parser import app
 
 if __name__ == '__main__':
-    HOST = environ.get('SERVER_HOST', 'localhost')
+    HOST = environ.get('SERVER_HOST', '0.0.0.0')
     try:
-        PORT = int(environ.get('SERVER_PORT', '5555'))
+        PORT = int(environ.get('80', '80'))
     except ValueError:
-        PORT = 5555
+        PORT = 80
     app.run(HOST, PORT)
