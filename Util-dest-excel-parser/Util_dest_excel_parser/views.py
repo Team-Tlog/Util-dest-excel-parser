@@ -5,11 +5,10 @@ Routes and views for the flask application.
 from datetime import datetime
 from flask import render_template, request, jsonify
 from Util_dest_excel_parser import app
-import pandas as pd
-import numpy as np
-import math
-import ast
+from Util_dest_excel_parser import service
 
+'''
+사용하지 않는 요청응답
 
 @app.route('/home')
 def home():
@@ -39,35 +38,21 @@ def about():
         year=datetime.now().year,
         message='Your application description page.'
     )
+'''
 
+# ================ Service Page ================
+    
+@app.route('/')
+def getServicePage():
+    """Renders the about page."""
+    return render_template(
+        'destination-parser.html',
+        title='destination',
+        year=datetime.now().year,
+        message='destination'
+    )
 
-
-
-
-
-
-def convertFile(file):
-    df = pd.read_excel(file)
-    obj = df.to_dict(orient='records')
-    for item in obj:
-        item['tagNames'] = ast.literal_eval(item['tagNames'])
-        item['weight'] = ast.literal_eval(item['weight'])
-    return replace_nan_with_none(obj)
-
-
-def replace_nan_with_none(data):
-    """
-    재귀적으로 딕셔너리나 리스트 내부의 NaN 값을 None으로 변환하는 함수.
-    """
-    if isinstance(data, dict):
-        return {k: replace_nan_with_none(v) for k, v in data.items()}
-    elif isinstance(data, list):
-        return [replace_nan_with_none(item) for item in data]
-    elif isinstance(data, float) and math.isnan(data):
-        return None
-    else:
-        return data
-
+# ================ Service API ================
 
 @app.route('/parse', methods=['POST'])
 def parse_file():
@@ -83,7 +68,7 @@ def parse_file():
     
     # 파일을 처리합니다.
     if file:
-        return jsonify(convertFile(file))
+        return jsonify(service.readFile(file))
     
     return 'fail : can not read'
 
@@ -91,14 +76,3 @@ def parse_file():
 
 
 
-
-@app.route('/')
-@app.route('/temp')
-def temp():
-    """Renders the about page."""
-    return render_template(
-        'destination-parser.html',
-        title='destination',
-        year=datetime.now().year,
-        message='destination'
-    )
