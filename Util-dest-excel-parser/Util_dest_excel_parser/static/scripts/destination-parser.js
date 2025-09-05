@@ -3,17 +3,31 @@ const locationList = document.getElementById('location-list');
 const selectedLocationTitle = document.getElementById('selected-location');
 const featuresInfoContainer = document.getElementById('features-info');
 const inputBox = document.getElementById('file-input');
-const inputButton = document.getElementById('submit-button');
 
 
 
 var placeData = [];
 
-inputButton.addEventListener('click', () => {
-    const file = inputBox.files[0];
 
+// ===================== File Input =====================
+
+var inputBox_latest = '';
+
+inputBox.addEventListener('click', function (event) {
+    this.value = null;
+})
+
+inputBox.addEventListener('change', function (event) {
+    const file = event.target.files[0];
     if (!file)
         return;
+    if (inputBox_latest == file.name) {
+        if (!confirm('현재 동일한 파일이 열려있습니다.\n파일을 다시 엽니까?'))
+            return;
+    }
+    inputBox_latest = file.name;
+
+    makeLoadingView(file.name);
 
     // 폼 데이터를 담을 FormData 객체를 생성합니다.
     // FormData는 HTML 폼 데이터를 쉽게 서버로 보낼 수 있게 해줍니다.
@@ -54,16 +68,34 @@ inputButton.addEventListener('click', () => {
 
 
 
+// ● 필드 명칭
+
 const col_name = 'name';
 const col_tag = 'tagNames';
 const col_weight = 'weight';
 
+
+
+
+
+// ● 기능 : 로딩 화면 구성
+
+function makeLoadingView(fileName) {
+    locationList.replaceChildren()
+
+    const loadingMsg = document.createElement('li');
+    loadingMsg.textContent = "[" + fileName + "] 처리중...";
+    locationList.appendChild(loadingMsg);
+
+    selectedLocationTitle.textContent = "[" + fileName + "] 처리중...";
+    featuresInfoContainer.replaceChildren()
+}
+
+
 // ● 기능 : 지명 리스트 생성
 
 function initial() {
-    while (locationList.firstChild) {
-        locationList.removeChild(locationList.firstChild);
-    }
+    locationList.replaceChildren();
 
     var i = 1;
     placeData.forEach(place => {
@@ -113,7 +145,7 @@ const t_name = '태그';
 const t_descr = '가중치';
 function displayFeatures(place) {
     selectedLocationTitle.textContent = "[" + place.number + "] " + place[col_name];
-    featuresInfoContainer.innerHTML = ''; // 기존 내용 비우기
+    featuresInfoContainer.replaceChildren(); // 기존 내용 비우기
     featuresInfoContainer.scrollTop = 0;
 
     if (place[col_tag] && place[col_tag].length > 0) {
