@@ -3,9 +3,12 @@ Routes and views for the flask application.
 """
 
 from datetime import datetime
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, send_file
 from Util_dest_excel_parser import app
 from Util_dest_excel_parser import service
+from Util_dest_excel_parser.dto.modifyRequestDto import *
+import json
+import io
 
 '''
 사용하지 않는 요청응답
@@ -83,4 +86,25 @@ def parse_file():
         return jsonify(service.readFile(file)), 200
     return jsonify({'message' : errorMsg}), 500
 
+@app.route('/modify', methods=['POST'])
+def modify_file():
+    file, errorMsg = getFile(request)
+    jsonData = json.loads(request.form.get('data'))
+    if file :
+        requestArr = [ModifyRequestDto.model_validate(req) for req in jsonData]
+        updatedFile = service.modifyFile(file, requestArr)
 
+        if updatedFile :
+            excel_stream = io.BytesIO()
+            updatedFile.save(excel_stream)
+            excel_stream.seek(0)
+    
+            return send_file(
+                excel_stream,
+                as_attachment=True,
+                download_name=file.filename,
+                mimetype=file.mimetype
+            )
+        else :
+            return jsonify({'message' : '파일 수정 실패'}), 500
+    return jsonify({'message' : errorMsg}), 500
