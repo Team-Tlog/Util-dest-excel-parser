@@ -26,7 +26,9 @@ var placeData = [];
 
 
 
+// ================== State ==================
 
+var currentDestNum = 0;
 
 
 // ===================== File Input =====================
@@ -96,9 +98,7 @@ function initializePlaceData() {
 
 
 
-// ================== State ==================
 
-var currentDestNum = 0;
 
 
 
