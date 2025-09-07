@@ -6,7 +6,21 @@ const inputBox = document.getElementById('file-input');
 
 
 
+
+
+
+// ● 필드 명칭
+
+const col_name = 'name';
+const col_tag = 'tagNames';
+const col_weight = 'weight';
+
+
 var placeData = [];
+
+
+
+
 
 
 // ===================== File Input =====================
@@ -68,11 +82,6 @@ inputBox.addEventListener('change', function (event) {
 
 
 
-// ● 필드 명칭
-
-const col_name = 'name';
-const col_tag = 'tagNames';
-const col_weight = 'weight';
 
 
 
