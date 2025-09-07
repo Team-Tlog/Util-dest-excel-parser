@@ -3,6 +3,7 @@ const locationList = document.getElementById('location-list');
 const selectedLocationTitle = document.getElementById('selected-location');
 const featuresInfoContainer = document.getElementById('features-info');
 const inputBox = document.getElementById('file-input');
+const outputButton = document.getElementById('file-output');
 
 
 
@@ -29,6 +30,17 @@ var placeData = [];
 // ================== State ==================
 
 var currentDestNum = 0;
+var totalModified = 0;
+
+// ================== State Func ==================
+
+function setTotalModified(value) {
+    totalModified = value;
+    outputButton.disabled = (totalModified <= 0);
+}
+
+
+
 
 
 // ===================== File Input =====================
@@ -100,6 +112,15 @@ function initializePlaceData() {
 
 
 
+// ===================== File Output =====================
+
+outputButton.addEventListener("click", () => {
+    submitModify();
+});
+
+
+
+
 
 
 
@@ -144,6 +165,7 @@ function initial() {
     if (placeData.length > 0) {
         select(1);
     }
+    setTotalModified(0);
 }
 
 
@@ -242,10 +264,12 @@ function removeCheckBoxChanged(event) {
     if (isChecked) {
         place.modified++;
         place.isModified[rowNum - 1] = true;
+        setTotalModified(totalModified + 1);
     }
     else {
         place.modified--;
         place.isModified[rowNum - 1] = false;
+        setTotalModified(totalModified - 1);
     }
     viewTagRemoveEffect_dest(currentDestNum - 1);
     viewTagRemoveEffect_tag(document.getElementById('features-table').rows[rowNum]);
