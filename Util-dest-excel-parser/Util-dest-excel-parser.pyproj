@@ -28,12 +28,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="runserver.py" />
+    <Compile Include="Util_dest_excel_parser\dto\modifyRequestDto.py" />
     <Compile Include="Util_dest_excel_parser\service.py" />
     <Compile Include="Util_dest_excel_parser\__init__.py" />
     <Compile Include="Util_dest_excel_parser\views.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Util_dest_excel_parser\" />
+    <Folder Include="Util_dest_excel_parser\dto\" />
     <Folder Include="Util_dest_excel_parser\static\" />
     <Folder Include="Util_dest_excel_parser\static\content\" />
     <Folder Include="Util_dest_excel_parser\static\fonts\" />

@@ -17,8 +17,8 @@ body {
     height: 300px;
 }
 
-#submit-button {
-    width: 100px;
+#file-output {
+    width: 120px;
     height: 60px;
 }
 
@@ -47,14 +47,14 @@ body {
     padding: 0;
 }
 
-    #location-list li {
-        padding: 8px 0;
-        cursor: pointer;
-    }
+#location-list li {
+    padding: 8px 0;
+    cursor: pointer;
+}
 
-        #location-list li:hover {
-            background-color: #f0f0f0;
-        }
+#location-list li:hover {
+    background-color: #f0f0f0;
+}
 
 #info-container {
     flex-grow: 1;
@@ -72,12 +72,12 @@ body {
     margin-top: 10px;
 }
 
-    #features-table th, #features-table td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-    }
+#features-table th, #features-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
 
-    #features-table th {
-        background-color: #f2f2f2;
-    }
+#features-table th {
+    background-color: #f2f2f2;
+}
