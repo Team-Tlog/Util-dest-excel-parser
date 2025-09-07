@@ -1,6 +1,4 @@
 ﻿
-import pandas as pd
-import numpy as np
 import math
 import ast
 from Util_dest_excel_parser.dto.modifyRequestDto import *
@@ -19,15 +17,40 @@ COL_WEIGHT = "weight"
 
 
 
+def findColomnIdx(sheet, colName) :
+    c = 1
+    while True :
+        cellValue = sheet.cell(1, c).value
+        if isEmptyData(cellValue) :
+            return -1
+        if cellValue == colName :
+            return c
+        c = c + 1
+
+
+
+
+
+
 def readFile(file) :
     return getTagsFromExcel(file)
 
 def getTagsFromExcel(file):
     """
-    excel 파일로부터 태그 정보만 추출해 Dictionary로 변환합니다.
+    excel 파일을 읽어 Dictionary로 변환합니다.
     """
-    df = pd.read_excel(file)
-    obj = df.to_dict(orient='records')
+    load_wb = load_workbook(file, data_only=True)
+    load_ws = load_wb['Sheet1']
+
+    obj = []
+    for row in range(2, load_ws.max_row + 1):
+        rowDict = {}
+        for col in range(1, load_ws.max_column + 1):
+            key = load_ws.cell(1, col).value
+            value = load_ws.cell(row, col).value
+            rowDict[key] = value
+        obj.append(rowDict)
+
     for item in obj:
         item[COL_TAGNAME] = ast.literal_eval(item[COL_TAGNAME])
         item[COL_WEIGHT] = ast.literal_eval(item[COL_WEIGHT])
@@ -118,12 +141,3 @@ def findStartEndRow(sheet) :
         endr = endr + 1
     return (startr, endr)
     
-def findColomnIdx(sheet, colName) :
-    c = 1
-    while True :
-        cellValue = sheet.cell(1, c).value
-        if isEmptyData(cellValue) :
-            return -1
-        if cellValue == colName :
-            return c
-        c = c + 1
