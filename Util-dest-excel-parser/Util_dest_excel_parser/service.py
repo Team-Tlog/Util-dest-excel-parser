@@ -5,6 +5,18 @@ import math
 import ast
 
 
+
+
+# ------------ 필드 명 ------------
+
+COL_NAME = "name"
+COL_TAGNAME = "tagNames"
+COL_WEIGHT = "weight"
+
+
+
+
+
 def readFile(file) :
     return getTagsFromExcel(file)
 
@@ -15,10 +27,9 @@ def getTagsFromExcel(file):
     df = pd.read_excel(file)
     obj = df.to_dict(orient='records')
     for item in obj:
-        item['tagNames'] = ast.literal_eval(item['tagNames'])
-        item['weight'] = ast.literal_eval(item['weight'])
+        item[COL_TAGNAME] = ast.literal_eval(item[COL_TAGNAME])
+        item[COL_WEIGHT] = ast.literal_eval(item[COL_WEIGHT])
     return replace_nan_with_none(obj)
-
 
 def replace_nan_with_none(data):
     """
