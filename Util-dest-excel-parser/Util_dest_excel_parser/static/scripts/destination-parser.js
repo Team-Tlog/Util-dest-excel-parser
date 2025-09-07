@@ -315,6 +315,10 @@ function submitModify() {
                 reqArr.push(req);
             }
     }
+    if (reqArr.length <= 0) {
+        alert('수정된 항목이 없습니다!');
+        return;
+    }
 
     // API 준비
 
