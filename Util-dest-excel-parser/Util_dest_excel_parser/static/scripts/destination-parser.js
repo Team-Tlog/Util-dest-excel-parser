@@ -15,7 +15,13 @@ const col_name = 'name';
 const col_tag = 'tagNames';
 const col_weight = 'weight';
 
-
+/*
+ * 위의 기본적인 필드 데이터 이외에
+ *      number : 1부터 시작하는 여행지 번호
+ *      modified : 삭제된 태그 수
+ *      isModified : 각 태그별 삭제 여부
+ * 가 추가됩니다.
+ */
 var placeData = [];
 
 
@@ -65,6 +71,7 @@ inputBox.addEventListener('change', function (event) {
             placeData = data;
 
             try {
+            initializePlaceData();
                 initial();
             } catch (error) {
                 alert('처리 중 오류 : ' + error.message);
@@ -78,6 +85,14 @@ inputBox.addEventListener('change', function (event) {
         });
 });
 
+function initializePlaceData() {
+    var i = 1;
+    placeData.forEach(place => {
+        place.number = i++;
+        place.modified = 0;
+        place.isModified = new Array(place[col_tag].length).fill(false);
+    });
+}
 
 
 
@@ -106,9 +121,7 @@ function makeLoadingView(fileName) {
 function initial() {
     locationList.replaceChildren();
 
-    var i = 1;
     placeData.forEach(place => {
-        place.number = i;
         var isHotPlace = false;
         for (var k = 0; k < place[col_tag].length; k++)
             if (place[col_tag][k] == '핫플레이스') {
@@ -117,13 +130,12 @@ function initial() {
             }
 
         const listItem = document.createElement('li');
-        listItem.textContent = "[" + i + "] " + place[col_name];
+        listItem.textContent = "[" + place.number + "] " + place[col_name];
         listItem.addEventListener('click', () => select(place.number));
         if (isHotPlace)
             listItem.style.color = '#FE4433';
 
         locationList.appendChild(listItem);
-        i++;
     });
 
     // 초기 상태로 첫 번째 지명의 정보 표시 
